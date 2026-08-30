@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>CodeChecker Team Building - Secrets of Balatonfüred</title>
+	<style>
+		:root {
+			--primary-color: #2c3e50;
+			--background-color: #f8f9fa;
+			--card-bg: #ffffff;
+			--text-color: #333333;
+			--button-color: #3498db;
+			--button-hover: #2980b9;
+			--hint-bg: #e8f4f8;
+		}
+
+		body {
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+			background-color: var(--background-color);
+			color: var(--text-color);
+			line-height: 1.6;
+			margin: 0;
+			padding: 0;
+		}
+
+		header {
+			background-color: var(--primary-color);
+			color: white;
+			padding: 2rem 1rem;
+			text-align: center;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+		}
+
+		.header-content {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 1rem;
+		}
+
+		.header-icon {
+			object-fit: contain;
+		}
+
+		.title-wrapper {
+			display: flex;
+			flex-direction: column;
+			text-align: left;
+		}
+
+		header h1 {
+			margin: 0;
+			font-size: 2rem;
+		}
+
+		header h3 {
+			margin: 0.2rem 0 0 0; /* Adds a tiny bit of space below the h1 */
+			font-size: 1.1rem;
+			font-weight: 400;
+			opacity: 0.9; /* Makes the subtitle slightly softer than the main title */
+		}
+
+		main {
+			max-width: 800px;
+			margin: 2rem auto;
+			padding: 0 1rem;
+		}
+
+		/* Welcome Section Styles */
+		.welcome-card {
+			background: var(--card-bg);
+			border-radius: 8px;
+			padding: 1.5rem 2rem;
+			margin-bottom: 2rem;
+			box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+			border: 1px solid #eaeaea;
+			border-top: 4px solid var(--primary-color);
+		}
+
+		.welcome-card h2 {
+			margin-top: 0;
+			color: var(--primary-color);
+		}
+
+		.welcome-card h3 {
+			margin-top: 1.5rem;
+			margin-bottom: 0.5rem;
+			font-size: 1.1rem;
+		}
+
+		.welcome-card ul {
+			margin: 0 0 1.5rem 0;
+			padding-left: 1.5rem;
+		}
+
+		.welcome-card li {
+			margin-bottom: 0.5rem;
+		}
+
+		.question-card {
+			background: var(--card-bg);
+			border-radius: 8px;
+			padding: 1.5rem;
+			margin-bottom: 1rem;
+			box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+			border: 1px solid #eaeaea;
+		}
+
+		.question-text {
+			font-size: 1.1rem;
+			font-weight: 500;
+			margin-top: 0;
+			margin-bottom: 1rem;
+		}
+
+		.sub-card {
+			margin-top: 1.5rem;
+			padding: 1rem;
+			background-color: #f1f3f5;
+			border-radius: 6px;
+			border-left: 3px solid var(--primary-color);
+		}
+
+		.sub-card-label {
+			font-size: 0.8rem;
+			text-transform: uppercase;
+			color: #6c757d;
+			margin: 0 0 0.5rem 0;
+			font-weight: bold;
+			letter-spacing: 0.5px;
+		}
+
+		.sub-question-text {
+			font-size: 1rem;
+			font-weight: 500;
+			margin-top: 0;
+			margin-bottom: 0.8rem;
+		}
+
+		.answer-input {
+			width: 100%;
+			padding: 0.8rem;
+			margin-top: 1rem;
+			margin-bottom: 0.8rem;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			font-size: 1rem;
+			box-sizing: border-box; /* Ensures padding doesn't push it outside the card */
+			font-family: inherit;
+			background-color: #ffffff;
+		}
+
+		.answer-input:focus {
+			outline: none;
+			border-color: var(--primary-color);
+			box-shadow: 0 0 0 2px rgba(44, 62, 80, 0.2);
+		}
+
+		.photo-badge {
+			background-color: #e3f2fd;
+			color: #0d47a1;
+			padding: 0.8rem;
+			border-radius: 4px;
+			margin: 1rem 0;
+			font-size: 0.95rem;
+			text-align: center;
+			border: 1px dashed #2196f3;
+		}
+
+		.hint-btn {
+			background: none;
+			border: none;
+			color: var(--button-color);
+			font-size: 0.9rem;
+			cursor: pointer;
+			padding: 0;
+			font-weight: 600;
+			text-decoration: underline;
+		}
+
+		.hint-btn:hover {
+			color: var(--button-hover);
+		}
+
+		.hint-container {
+			display: none;
+			margin-top: 1rem;
+			padding: 1rem;
+			background-color: var(--hint-bg);
+			border-left: 4px solid var(--button-color);
+			border-radius: 0 4px 4px 0;
+			font-size: 0.95rem;
+		}
+
+		.show-hint {
+			display: block;
+		}
+
+		.quest-control-panel {
+			text-align: center;
+			margin-bottom: 2rem;
+			padding: 1.5rem;
+			background: white;
+			border-radius: 8px;
+			box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+			border: 1px solid #eaeaea;
+		}
+
+		.primary-btn {
+			background-color: var(--button-color);
+			color: white;
+			border: none;
+			padding: 0.8rem 1.5rem;
+			font-size: 1.1rem;
+			font-weight: bold;
+			border-radius: 6px;
+			cursor: pointer;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+		}
+
+		.primary-btn:hover { background-color: var(--button-hover); }
+		.danger-btn { background-color: #e74c3c; margin-top: 1rem; }
+		.danger-btn:hover { background-color: #c0392b; }
+
+		.status-text {
+			font-size: 1.2rem;
+			font-weight: bold;
+			color: var(--primary-color);
+			margin: 0;
+			display: none;
+		}
+
+		.reset-btn {
+			background: none;
+			border: none;
+			color: #e74c3c;
+			text-decoration: underline;
+			cursor: pointer;
+			font-size: 0.9rem;
+		}
+
+		.reset-btn-wrapper {
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<div class="header-content">
+			<img src="logo.png" alt="Quiz Icon" class="header-icon">
+			<div class="title-wrapper">
+				<h1>Secrets of Balatonfüred</h1>
+				<h3>A CodeChecker Teambuilding</h3>
+			</div>
+		</div>
+	</header>
+
+	<main>
+		<div id="welcome-section" class="welcome-card">
+			<h2>Welcome Explorers!</h2>
+			<p>Get ready to uncover the hidden gems of Balatonfüred in this CodeChecker Team Building adventure. Work together to navigate this part of the city, solve clues, and complete challenges.</p>
+			
+			<h3>📜 The Rules of the Quest:</h3>
+			<ul>
+				<li><strong>Exact Answers:</strong> Type carefully! You have to give the exact answers to each of the questions! Text boxes will instantly light up green when type in the correct answer.</li>
+				<li><strong>Photo Evidence:</strong> Some tasks require a photo. Snap them with your phone's camera and keep them ready for the finish line review.</li>
+				<li><strong>Watch the Clock:</strong> Your time is tracked from the moment you hit 'Start Quest'. The fastest team with the most correct answers wins!</li>
+				<li><strong>Case and Accents:</strong> Casing matters! Always start your answers upper-case and don't use accents, only the english alphabet!</li>
+			</ul>
+			<p><em>When your entire team is ready at the starting location, press the button below to begin your timer and reveal your first tasks. When finished, come back here. Good luck!</em></p>
+		</div>
+		<div class="quest-control-panel" id="control-panel">
+			<button id="start-btn" class="primary-btn">Start Quest</button>
+			<p id="status-display" class="status-text"></p>
+			<button id="end-btn" class="primary-btn danger-btn" style="display: none;">Finish Quest</button>
+		</div>
+
+		<div id="quiz-container" style="display: none;"></div>
+
+		<div class="reset-btn-wrapper">
+			<button class="reset-btn" id="reset-btn">Reset App Data</button>
+		</div>
+	</main>
+
+	<script>
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', () => {
+				navigator.serviceWorker.register('./sw.js')
+					.then(reg => console.log('Offline support activated!'))
+					.catch(err => console.log('Service Worker failure:', err));
+			});
+		}
+
+		const quizData = [
+			{
+				question: "In the early 1980s he became known as the Hungarian dubbing voice of Italian actor Bud Spencer, whose films were highly popular in Hungary at the time. Who was he?",
+				hint: "He also played the role of 'Ötvös Csöpi' in the hungarian movie 'Pogány Madonna'",
+				hasInput: true,
+				answer: "Istvan Bujtor",
+				followUp: {
+					question: "He also got a statue memorizing his achievements in sailing. Take a photo of it!",
+					hint: "I'd imagine memorizing him doing what he did the best: sailing.",
+					type: 'photo'
+				}
+			},
+			{
+				question: "This is a very underrated statue in Balatonfüred - maybe because it is kind of hidden from plain sight. How about a walk to the docks? You might find it there. If you've found it, take a photo of it!",
+				hint: "You might want to look up above the horizont to find it.",
+				hasInput: false,
+				type: 'photo'
+			},
+			{
+				question: "People near Lake Balaton had two prominent professions back in the days. What could those be?",
+				hint: "Those days people were mostly: 'Fishermen, Ferrymen.'",
+				hasInput: true,
+				answer: "Fishermen, Ferrymen",
+				followUp: {
+					question: "Let’s find the memorial for those two and take a photo of it!",
+					hint: "How about going for a walk in the rose garden next to the entrance of the docks?",
+					type: 'photo'
+				}
+			},
+			{
+				question: "The Tagore promenade got its name from a famous person Rabindranath Tagore who was hospitalized in the famous Heart Hospital in Balatonfüred. He's got a statue somewhere here, find it and take a photo of it!",
+				hint: "Most of the statues are opposite to the docks. I'd start searching for it there.",
+				hasInput: false,
+				type: 'photo'
+			},
+			{
+				question: "Lake Balaton was always the home of boating both from small fishing boats to larger transit ships across the lake. Unfortunately there was a tragedy on the lake where one of the larger ships flipped over and sunk. This tragedy is always remembered. The town built a statue for it which can be seen on the promenade. What year was the statue built?",
+				hint: "People were putting their hands up so the rescue team can pull them from the water. Look for hands in the air!",
+				hasInput: true,
+				answer: "1999"
+			},
+			{
+				question: "Back in the late 1800s people were coming to Lake Balaton to cure various diseases. They’ve built bathhouses for this reason onto the lake and among all, the one in Balatonfüred was the biggest. Later in the second world war it was destroyed. In its place there is a memorial glass panel near the shore. Read the info on it: How long was the bridge to the bathhouse in meters?",
+				hint: "Just walk down the promenade and you'll find it. Look for a glass pane!",
+				hasInput: true,
+				answer: "168",
+			},
+			{
+				question: "Balatonfüred got its fame partly for the carbonated springs for centuries now. There is a well which serves this water named after a former prime minister in Hungary. Find it and take a photo of it!",
+				hint: "Hungary had several prime ministers, one of which was Lajos Kossuth. How about a walk towards the Heart Hospital? It s just a few steps from the promenade upwards to the city!",
+				hasInput: false,
+				type: 'photo'
+			},
+			{
+				question: "There were many great actresses in Hungary but there was one who was special to Balatonfüred. She was also known as 'the nation's nightingale' which name was given her by writer Mór Jókai. Who was she?",
+				hint: "Lujza Blaha was known as 'the nation's nightingale'.",
+				hasInput: true,
+				answer: "Lujza Blaha",
+				followUp: {
+					question: "She had a weekend house in this part of the city. Find the house, there is a plaque on the wall. What is the end date written on the plaque?",
+					hint: "Take a walk one street higher from where both the heart hospital and the church is visible. Walk towards the church.",
+					hasInput: true,
+					answer: "1916"
+				}
+			},
+			{
+				question: "Balatonfüred has many churches and we’ve already seen one which is its most famous one. There is another one! This one is all over the merch and Balatonfüred related prints because it is unique in its form. Find it and take a photo of it!",
+				hint: "Does all of the churches have straight walls? How about a rounded one?",
+				hasInput: false,
+				type: 'photo'
+			},
+			{
+				question: "Mór Jókai was mesmerized by Lake Balaton hence why built a weekend home in Balatonfüred. Now it is a memorial house. What is the house number of the building?",
+				hint: "There is a church which is definitely not square shaped. There you must find the street called 'Honvéd Utca'. There are rumors that this house is on that one!",
+				hasInput: true,
+				answer: "1"
+			}
+		];
+
+		function createPhotoBadge(text = '📷 <strong>Photo Task:</strong> Take a team selfie with your phone and save it for the finish line!') {
+			const photoBadge = document.createElement('div');
+			photoBadge.innerHTML = text;
+			photoBadge.className = 'photo-badge'
+			return photoBadge;
+		}
+
+		function validateInput(inputElement, expectedAnswer) {
+			if (!expectedAnswer) return;
+
+			const currentVal = inputElement.value.toLowerCase().trim();
+			const expectedVal = expectedAnswer.toLowerCase().trim();
+
+			if (currentVal === expectedVal) {
+				inputElement.style.borderColor = '#27ae60';
+				inputElement.style.backgroundColor = '#eafaf1';
+				inputElement.style.color = '#145a32';
+			} else if (currentVal !== '') {
+				inputElement.style.borderColor = '#e74c3c';
+				inputElement.style.backgroundColor = '#fdedec';
+				inputElement.style.color = '#78281f';
+			} else {
+				inputElement.style.borderColor = '#ccc';
+				inputElement.style.backgroundColor = '#ffffff';
+				inputElement.style.color = 'inherit';
+			}
+		}
+
+		const container = document.getElementById('quiz-container');
+		const startBtn = document.getElementById('start-btn');
+		const endBtn = document.getElementById('end-btn');
+		const statusDisplay = document.getElementById('status-display');
+
+		function updateTimerUI() {
+			const startTime = localStorage.getItem('quizStartTime');
+			const endTime = localStorage.getItem('quizEndTime');
+
+			if (!startTime) {
+				container.style.display = 'none';
+				startBtn.style.display = 'inline-block';
+				endBtn.style.display = 'none';
+				statusDisplay.style.display = 'none';
+			} else if (startTime && !endTime) {
+				container.style.display = 'block';
+				startBtn.style.display = 'none';
+				endBtn.style.display = 'inline-block';
+				statusDisplay.style.display = 'block';
+				
+				const startDate = new Date(parseInt(startTime));
+				statusDisplay.textContent = `⏳ Quest Started at: ${startDate.toLocaleTimeString()}`;
+			} else {
+				container.style.display = 'block';
+				startBtn.style.display = 'none';
+				endBtn.style.display = 'none';
+				statusDisplay.style.display = 'block';
+				
+				const diffSecs = Math.floor((parseInt(endTime) - parseInt(startTime)) / 1000);
+				const mins = Math.floor(diffSecs / 60);
+				const secs = diffSecs % 60;
+				statusDisplay.textContent = `🏆 Quest Completed in ${mins}m ${secs}s!`;
+				statusDisplay.style.color = '#27ae60';
+			}
+		}
+
+		startBtn.addEventListener('click', () => {
+			localStorage.setItem('quizStartTime', Date.now());
+			updateTimerUI();
+		});
+
+		endBtn.addEventListener('click', () => {
+			if(confirm("Are you sure you want to finish the quest? Make sure all your answers are typed in!")) {
+				 localStorage.setItem('quizEndTime', Date.now());
+				 updateTimerUI();
+				 window.scrollTo({ top: 0, behavior: 'smooth' });
+			}
+		});
+
+		function renderQuestions() {
+			quizData.forEach((item, index) => {
+				const card = document.createElement('div');
+				card.className = 'question-card';
+
+				const questionEl = document.createElement('p');
+				questionEl.className = 'question-text';
+				questionEl.textContent = `${index + 1}. ${item.question}`;
+				card.appendChild(questionEl); 
+
+				if (item.type === 'photo') {
+					card.appendChild(createPhotoBadge());
+				}
+
+				let subCard = null;
+				if (item.followUp) {
+					subCard = document.createElement('div');
+					subCard.className = 'sub-card';
+					
+					const subLabel = document.createElement('p');
+					subLabel.className = 'sub-card-label';
+					subLabel.textContent = 'Follow-up Question';
+					subCard.appendChild(subLabel);
+
+					const subQuestionEl = document.createElement('p');
+					subQuestionEl.className = 'sub-question-text';
+					subQuestionEl.textContent = item.followUp.question;
+					subCard.appendChild(subQuestionEl);
+
+					if (item.followUp.type === 'photo') {
+						subCard.appendChild(createPhotoBadge());
+					}
+
+					if (item.followUp.hasInput) {
+						const subInputEl = document.createElement('input');
+						subInputEl.type = 'text';
+						subInputEl.className = 'answer-input';
+						subInputEl.placeholder = 'Type your follow-up answer...';
+
+						const subStorageKey = `followup-answer-${index}`;
+						const savedSubAnswer = localStorage.getItem(subStorageKey);
+						if (savedSubAnswer) {
+							subInputEl.value = savedSubAnswer;
+							validateInput(subInputEl, item.followUp.answer);
+						}
+
+						subInputEl.addEventListener('input', (event) => {
+							localStorage.setItem(subStorageKey, event.target.value);
+							validateInput(subInputEl, item.followUp.answer);
+						});
+						subCard.appendChild(subInputEl);
+					}
+
+					const subButtonEl = document.createElement('button');
+					subButtonEl.className = 'hint-btn';
+					subButtonEl.textContent = 'Show Hint';
+
+					const subHintEl = document.createElement('div');
+					subHintEl.className = 'hint-container';
+					subHintEl.textContent = item.followUp.hint;
+
+					subButtonEl.addEventListener('click', () => {
+						const isHidden = window.getComputedStyle(subHintEl).display === 'none';
+						if (isHidden) {
+							subHintEl.classList.add('show-hint');
+							subButtonEl.textContent = 'Hide Hint';
+						} else {
+							subHintEl.classList.remove('show-hint');
+							subButtonEl.textContent = 'Show Hint';
+						}
+					});
+
+					subCard.appendChild(subButtonEl);
+					subCard.appendChild(subHintEl);
+				}
+
+				if (item.hasInput) {
+					const mainInputEl = document.createElement('input');
+					mainInputEl.type = 'text';
+					mainInputEl.className = 'answer-input';
+					mainInputEl.placeholder = 'Type your answer here...';
+
+					const mainStorageKey = `main-answer-${index}`;
+					const savedMainAnswer = localStorage.getItem(mainStorageKey);
+					
+					if (savedMainAnswer) {
+						mainInputEl.value = savedMainAnswer;
+						validateInput(mainInputEl, item.answer);
+					}
+
+					// If a sub-card exists, hide it initially if no main answer is saved
+					if (subCard && (!savedMainAnswer || savedMainAnswer.trim() === '')) {
+						subCard.style.display = 'none';
+					}
+
+					mainInputEl.addEventListener('input', (event) => {
+						const currentValue = event.target.value;
+						localStorage.setItem(mainStorageKey, currentValue);
+						validateInput(mainInputEl, item.answer);
+						
+						// Show/hide subCard based on input
+						if (subCard) {
+							if (currentValue.trim() !== '') {
+								subCard.style.display = 'block'; 
+							} else {
+								subCard.style.display = 'none'; 
+							}
+						}
+					});
+
+					card.appendChild(mainInputEl); 
+				}
+
+				const buttonEl = document.createElement('button');
+				buttonEl.className = 'hint-btn';
+				buttonEl.textContent = 'Show Hint';
+
+				const hintEl = document.createElement('div');
+				hintEl.className = 'hint-container';
+				hintEl.textContent = item.hint;
+
+				buttonEl.addEventListener('click', () => {
+					const isHidden = window.getComputedStyle(hintEl).display === 'none';
+					if (isHidden) {
+						hintEl.classList.add('show-hint');
+						buttonEl.textContent = 'Hide Hint';
+					} else {
+						hintEl.classList.remove('show-hint');
+						buttonEl.textContent = 'Show Hint';
+					}
+				});
+
+				card.appendChild(buttonEl);
+				card.appendChild(hintEl);
+
+				if (subCard) {
+					card.appendChild(subCard);
+				}
+
+				container.appendChild(card);
+			});
+		}
+
+		const resetBtn = document.getElementById('reset-btn');
+		resetBtn.addEventListener('click', () => {
+			if(confirm("DEBUG: Are you sure you want to delete all saved answers and reset the timer?")) {
+				localStorage.clear();
+				window.location.reload();
+			}
+		});
+
+		document.addEventListener('DOMContentLoaded', renderQuestions);
+	</script>
+</body>
+</html>
